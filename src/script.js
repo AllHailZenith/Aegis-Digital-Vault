@@ -26,4 +26,22 @@ function accessVault(key) {
     throw new VaultLockedError("Incorrect key provided");
 }
 
-console.log(accessVault("SECRET_123"));
+function attemptEntry(key) {
+    try {
+        console.log(accessVault(key));
+    } catch (e) {
+        if (e instanceof InvalidKeyError) {
+            console.log("Security Alert: System corruption detected.");
+        } else if (e instanceof VaultLockedError) {
+            console.log("User Error: Please try again.");
+        } else {
+            throw e;
+        }
+    } finally {
+        console.log("Vault attempt completed.");
+    }
+}
+
+attemptEntry("SECRET_123");
+attemptEntry("wrong");
+attemptEntry(undefined);
