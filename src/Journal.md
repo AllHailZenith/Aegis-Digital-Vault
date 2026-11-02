@@ -9,3 +9,6 @@ Added try, catch, and finally to handle vault errors without stopping the entire
 
 Phase 4
 Made automated tests to check correct keys, missing keys, NaN, and incorrect passwords. Automated testing makes it easier to check the same behavior repeatedly. I learned that throwing an error immediately stops the normal flow and moves execution to the catch block, where the error can be handled.
+
+Phase 5
+I tested different inputs like empty strings, numbers, and null. The program handled incorrect keys without crashing. I learned that custom errors help identify problems and try-catch allows the program to recover.
