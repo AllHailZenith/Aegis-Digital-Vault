@@ -42,6 +42,54 @@ function attemptEntry(key) {
     }
 }
 
+function testAccess() {
+    try {
+        return accessVault("SECRET_123") === "Access Granted";
+    } catch (e) {
+        return false;
+    }
+}
+
+function testInvalidKey() {
+    try {
+        accessVault(undefined);
+        return false;
+    } catch (e) {
+        return e instanceof InvalidKeyError;
+    }
+}
+
+function testNaNKey() {
+    try {
+        accessVault(NaN);
+        return false;
+    } catch (e) {
+        return e instanceof InvalidKeyError;
+    }
+}
+
+function testWrongKey() {
+    try {
+        accessVault("wrong");
+        return false;
+    } catch (e) {
+        return e instanceof VaultLockedError;
+    }
+}
+
+function runTest(name, test) {
+    if (test()) {
+        console.log(name + ": Passed");
+    } else {
+        console.log(name + ": Failed");
+    }
+}
+
+runTest("Correct key", testAccess);
+runTest("Undefined key", testInvalidKey);
+runTest("NaN key", testNaNKey);
+runTest("Wrong key", testWrongKey);
+
 attemptEntry("SECRET_123");
 attemptEntry("wrong");
 attemptEntry(undefined);
